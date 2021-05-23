@@ -1,0 +1,407 @@
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+
+<Container>:
+    transition: NoTransition()
+    Map:
+        id: Map
+    Schedule:
+        id: Schedule
+    Empty:
+        id: Empty
+    Sets:
+        id: Sets
+
+
+<Map>:
+    name: 'Map'
+    b: 0  # number of building
+    fl: 0  # number of floor
+    f: [f0, f1, f2, f3, f4, f5, f6, f7]  # Set of floor buttons
+    map: map
+    #on_pre_enter: root.logo()
+
+    BoxLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            BoxLayout:  # Map screen
+                BoxLayout:  # Left panel
+                    orientation: 'vertical'
+                    size_hint: 0.2, 1
+                    spacing: '10dp'
+                    padding: '10dp', 0, '10dp', 0
+
+                    Widget: # Just for design
+                        size_hint: 1, 2
+
+                    Button:
+                        text: 'План'
+                        on_release: root.open_plan()
+                    Button:
+                        background_color: 0, 0, 0, 0
+                        on_release: root.easter_egg()
+                    Button:
+                        id: f7
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э7'
+                        on_press: root.set_fl(7)
+                    Button:
+                        id: f6
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э6'
+                        on_press: root.set_fl(6)
+                    Button:
+                        id: f5
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э5'
+                        on_press: root.set_fl(5)
+                    Button:
+                        id: f4
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э4'
+                        on_press: root.set_fl(4)
+                    Button:
+                        id: f3
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э3'
+                        on_press: root.set_fl(3)
+                    Button:
+                        id: f2
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э2'
+                        on_press: root.set_fl(2)
+                    Button:
+                        id: f1
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э1'
+                        on_press: root.set_fl(1)
+                    Button:
+                        id: f0
+                        color: 1, 1, 1, 0
+                        background_color: 1, 1, 1, 0
+                        text: 'Э0'
+                        on_press: root.set_fl(0)
+
+                BoxLayout:  # Map image
+                    orientation: 'vertical'
+                    BoxLayout:
+                        Scatter:
+                            _set_scale: 5.
+                            do_rotation: False
+                            auto_bring_to_front: True
+                            Image:
+                                size: root.W[0]*0.8, root.W[1]*0.8
+                                id: map
+                    BoxLayout:  # Buildings panel
+                        spacing: 10
+                        padding: 10, 0, 10, 0
+                        size_hint_y: 0.1
+                        Button:
+                            text: 'К1'
+                            on_release:
+                                root.set_b(1)
+                                root.b12()
+                        Button:
+                            text: 'К2'
+                            on_release:
+                                root.set_b(2)
+                                root.b12()
+                        Button:
+                            text: 'К3'
+                            on_release:
+                                root.set_b(3)
+                                root.b36()
+                        Button:
+                            text: 'К6'
+                            on_release:
+                                root.set_b(6)
+                                root.b36()
+
+            BottomMenu:
+
+<DesignedLabel>:
+    size_hint_y: None
+    color: 0, 0, 0, 1
+    size: self.texture_size
+    halign: 'left'
+    markup: True
+
+
+<LectionLabel>:
+    canvas.before:
+        Color:
+            rgba: 0.63, 0.93, 0.56, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<SeminarLabel>:
+    canvas.before:
+        Color:
+            rgba: 0.56, 0.83, 0.93, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<ExamLabel>:
+    canvas.before:
+        Color:
+            rgba: 0.93, 0.56, 0.56, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<ConsultationLabel>:
+    canvas.before:
+        Color:
+            rgba: 0.75, 0.94, 0.8, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<WeekDayLabel>:
+    canvas.before:
+        Color:
+            rgba: 0.9, 0.9, 0.9, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<LessonNumberLabel>:
+    canvas.before:
+        Color:
+            rgba: 0.9, 0.7, 0.9, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<Schedule>:
+    name: 'Schedule'
+    weeknum: weeknum
+    schedulebackground: schedulebackground
+
+    on_pre_enter:
+        root.check_group_number()
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:  # Schedule page
+            BoxLayout: # Left menu
+                padding: 10
+                spacing: 20
+                size_hint_x: 0.2
+                orientation: 'vertical'
+
+                TextInput:
+                    id: weeknum
+                    halign: 'center'
+                    valign: 'middle'
+                    text: '-1'
+                BoxLayout:
+                    spacing: '1dp'
+                    padding: '1dp'
+                    Button:
+                        text: '+'
+                        on_release: root.next_week()
+                    Button:
+                        text: '-'
+                        on_release: root.prev_week()
+                Button:
+                    text: 'Обновить'
+                    on_release: root.reload()
+                Button: # TODO: Today and Tomorrow buttons
+                    text: 'Неделя'
+                    on_release:
+                        root.show_week()
+                Button:
+                    text: 'Пн'
+                    on_release:
+                        root.show_day(root.WEEKDAYS[0])
+                Button:
+                    text: 'Вт'
+                    on_release:
+                        root.show_day(root.WEEKDAYS[1])
+                Button:
+                    text: 'Ср'
+                    on_release:
+                        root.show_day(root.WEEKDAYS[2])
+                Button:
+                    text: 'Чт'
+                    on_release:
+                        root.show_day(root.WEEKDAYS[3])
+                Button:
+                    text: 'Пт'
+                    on_release:
+                        root.show_day(root.WEEKDAYS[4])
+                Button:
+                    text: 'Сб'
+                    on_release:
+                        root.show_day(root.WEEKDAYS[5])
+
+
+            ScrollView:
+                size: self.size
+                GridLayout:
+                    id: schedulebackground
+                    cols: 1
+                    padding: dp(5)
+                    spacing: dp(20)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    color: 0, 0, 0, 1
+
+
+        BottomMenu:
+
+
+<Empty>:
+    name: 'Empty'
+
+    date: date
+    lessonnumber: lessonnumber
+
+    BoxLayout:
+        roms: rooms
+        orientation: 'vertical'
+        BoxLayout:  # Empty auds page
+            halign: 'middle'
+            orientation: 'vertical'
+            GridLayout: # Sets
+                size_hint_y: 0.4
+                spacing: '20dp'
+                padding: '20dp'
+                rows: 2
+                Label:
+                    text: 'Дата'
+                    color: 0, 0, 0, 1
+                Label:
+                    text: 'Номер пары'
+                    color: 0, 0, 0, 1
+                TextInput:
+                    id: date
+                    halign: 'center'
+                    validn: 'center'
+                    text: '12.02.2020'
+                TextInput:
+                    id: lessonnumber
+                    text: '1'
+                    halign: 'center'
+                    validn: 'middle'
+            BoxLayout:
+                size_hint_y: 0.3
+                padding: '20dp'
+                Button:
+                    text: 'Загрузить'
+                    #on_release: root.load()
+            BoxLayout: # Body
+                orientation: 'vertical'
+                Label:
+                    id: rooms
+                    text: 'Ну не робит оно, ну не стукай.'
+                    color: 0, 0, 0, 1
+
+        BottomMenu:
+
+
+<Sets>:
+    name: 'Sets'
+    faculty: faculty
+    course: course
+    level: level
+    group: group
+    department: department
+    teacher: teacher
+    shower: shower
+
+    on_pre_enter: root.show()
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:  # Settings page
+            orientation: 'vertical'
+            padding: '10dp'
+            spacing: '10dp'
+            BoxLayout: # Group selection
+                padding: '10dp'
+                spacing: '10dp'
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: 0.75, 0.94, 0.8, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Spinner:
+                    id: faculty
+                    on_text: root.load_groups()
+                Spinner:
+                    id: course
+                    on_text: root.load_groups()
+                Spinner:
+                    id: level
+                    on_text: root.load_groups()
+                Spinner:
+                    id: group
+                    on_text: root.save(self)
+
+            BoxLayout: # Teacher selection
+                size_hint_y: 0.55
+                orientation: 'vertical'
+                padding: '10dp'
+                spacing: '10dp'
+                canvas.before:
+                    Color:
+                        rgba: 0.75, 0.94, 0.8, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Spinner:
+                    id: department
+                    on_text: root.load_teachers()
+                Spinner:
+                    id: teacher
+                    on_text: root.save(self)
+
+            TextInput:
+                id: shower
+                size_hint_y: 0.3
+            Button:
+                size_hint_y: 0.2
+                text: 'Save'
+                on_release: root.save(root.shower)
+
+        BottomMenu:
+
+<BottomMenu>:
+    padding: '10dp'
+    spacing: '20dp'
+    size_hint_y: 0.1
+    Button:
+        text: 'Карта'
+        on_release:
+            app.root.current = 'Map'
+    Button:
+        text: 'Расписание'
+        on_release:
+            app.root.current = 'Schedule'
+    Button:
+        text: 'Пустые ауд.'
+        on_release:
+            app.root.current = 'Empty'
+    Button:
+        text: 'Установки'
+        on_release:
+            app.root.current = 'Sets'
